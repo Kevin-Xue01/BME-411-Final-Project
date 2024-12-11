@@ -6,10 +6,10 @@ import random
 
 np.random.seed(42)
 
-def objective_function_with_dv_penalty(
-        weights, intensity_matrix, tumor_voxels, normal_voxels, segmentation_map_data, 
-        min_tumor_dose, max_tumor_dose, dose_threshold, dv_fraction, min_max_penalty_weight, dv_penalty_weight
-    ):
+def objective_function_with_dv_penalty(args):
+        weights, intensity_matrix, tumor_voxels, normal_voxels, segmentation_map_data, \
+        min_tumor_dose, max_tumor_dose, dose_threshold, dv_fraction, \
+        min_max_penalty_weight, dv_penalty_weight = args
         """
         Objective function with penalties for violating tumor dose and dose-volume constraints.
 
@@ -296,7 +296,7 @@ if __name__ == "__main__":
 
             # Use multiprocessing pool for parallel evaluation
             with Pool() as pool:
-                scores = pool.map(evaluate_particle, args)
+                scores = pool.map(objective_function_with_dv_penalty, args)
 
             # Update personal best and global best
             for i, score in enumerate(scores):
